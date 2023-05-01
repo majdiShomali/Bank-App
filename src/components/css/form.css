@@ -1,8 +1,14 @@
+.formContainer{
 
-  form p{
+height: 80vh;
+}
+
+
+form p{
     font-size: 0.5rem;
     color: red;
     width: 15rem;
+
   }
   fieldset{
     padding: 0.5rem;
