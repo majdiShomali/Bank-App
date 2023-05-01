@@ -2,23 +2,44 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./pages/Navbar";
 import Home from "./pages/home";
-import Blogs from "./pages/Blogs";
-import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import NoPage from "./pages/NoPage";
 import Footer from "./pages/footer";
 
 export default function App() {
+
+
+  const initState = {
+    accounts : [
+            {
+              id: 1,
+              customerName:"Israa Othman",
+              accountNumber: "123456",
+              accountType: "Savings"
+            },
+            {
+              id: 2,
+              customerName:"Ahmad Zahran",
+              accountNumber: "987654",
+              accountType: "Student accounts"
+            }
+    ]
+
+
+}
+
+
+
+  
   return (
     <BrowserRouter>
+    <Navbar />
       <Routes>
-        <Route path="/" element={<Navbar />}>
-          <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
+       
+          <Route index element={<Home initState5={initState}  />} />
           <Route path="SignUp" element={<SignUp />} />
           <Route path="*" element={<NoPage />} />
-        </Route>
+       
       </Routes>
       <Footer />
     </BrowserRouter>

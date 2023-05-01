@@ -2,110 +2,146 @@ import { useState } from "react";
 import "./css/form.css";
 
 export default function MyForm() {
-  const [name, setName] = useState("");
-  const [namep, setNamep] = useState("");
+ 
 
-  const [password, setPassword] = useState("");
-  const [passwordp, setPasswordp] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  
 
-  const [Email, setEmail] = useState("");
-  const [Emailp, setEmailp] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  
+  const [accountType, setAccountType] = useState("");
+
+  
+  const [count, setCount] = useState(3);
+  const [array, setArray] = useState( [
+    {
+      count: 1,
+      customerName:"Israa Othman",
+      accountNumber: "123456",
+      accountType: "Savings"
+    },
+    {
+      count: 2,
+      customerName:"Ahmad Zahran",
+      accountNumber: "987654",
+      accountType: "Student accounts"
+    }
+]
+)
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
 
-    validateName(name);
-    validatePassword(password);
-    validateEmail(Email);
+  let cards ={
+    count:count,
+    customerName:customerName,
+    accountNumber:accountNumber,
+    accountType:accountType
+  }
+  
 
-    if (
-      validateName(name) &&
-      validatePassword(password) &&
-      validateEmail(Email)
-    ) {
-      alert(`welcome ${name}`);
-    }
+    setArray([...array, cards])
+    setCount(count+1)
+
+     console.log(array)
+
   };
 
-  function validateName(name) {
-    if (name === "") {
-      setNamep("please enter your name");
-      return false;
-    } else {
-      setNamep("");
-      return true;
-    }
-  }
+ 
 
-  function validateEmail(userEmail) {
-    if (!/\S+@\S+\.\S+/.test(userEmail)) {
-      setEmailp("E-mail must be in a valid format such as example@gmail.com");
-      return false;
-    } else {
-      setEmailp("");
-      return true;
-    }
-  }
 
-  function validatePassword(userPassword) {
-    let password = userPassword;
-    const passwordRegex =
-      /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      setPasswordp(
-        "Password must contain at least 8 characters, 1 number, 1 uppercase letter, and 1 special character"
-      );
-      return false;
-    } else {
-      setPasswordp("");
-      return true;
-    }
-  }
+
+
+
+
 
   return (
+
+    <>
+
+   
     <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>SignUP</legend>
 
+  
+
         <div className="divP">
           <div className="LabelInput">
-            <label>name: </label>
+            <label>Customer Name</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
-          {console.log(name)}
-          <p> {namep} </p>
+         
         </div>
 
         <div className="divP">
           <div className="LabelInput">
-            <label>password:</label>
+            <label>Account Number:</label>
             <input
-              type="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="text"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
             />
           </div>
-          <p>{passwordp}</p>
+        
         </div>
 
         <div className="divP">
           <div className="LabelInput">
-            <label>Email:</label>
+            <label>Account Type</label>
             <input
-              type="Email"
-              value={Email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={accountType}
+              onChange={(e) => setAccountType(e.target.value)}
             />
           </div>
-          <p> {Emailp} </p>
+          
         </div>
 
         <input type="submit" />
       </fieldset>
     </form>
+
+
+
+   <div className="cardsContainer">
+  
+  { 
+ 
+  
+
+
+ 
+  array.map((account) => {
+    
+        return(
+
+        <div id={account.count}  className="card">
+          <p>{account.count}</p>
+        <p>{account.customerName}</p>
+        <p>{account.accountNumber}</p>
+        <p>{account.accountType}</p>
+        <button id={account.count}  >delete</button>
+        </div>
+
+        );
+      })
+      
+      
+      }
+
+
+
+   </div>
+
+
+    </>
+
   );
 }
