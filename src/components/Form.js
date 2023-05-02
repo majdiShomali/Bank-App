@@ -34,7 +34,7 @@ function Form() {
         accountType: accountType,
       };
       return {
-        accountss: [...prevAccounts.accountss, newAccount],
+        accountss: [...prevAccounts.accountss, newAccount], // new array of account
         numberOfAccounts: prevAccounts.numberOfAccounts + 1,
       };
     });
