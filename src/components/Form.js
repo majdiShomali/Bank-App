@@ -1,147 +1,109 @@
 import { useState } from "react";
 import "./css/form.css";
 
-export default function MyForm() {
- 
+function Form() {
+  const [accounts, setaccounts] = useState({
+    accountss: [
+      {
+        id: 1,
+        customerName: "Israa Othman",
+        accountNumber: "123456",
+        accountType: "Savings",
+      },
+      {
+        id: 2,
+        customerName: "Ahmad Zahran",
+        accountNumber: "987654",
+        accountType: "Student accounts",
+      },
+    ],
+    numberOfAccounts: 2,
+  });
 
-  const [customerName, setCustomerName] = useState("");
-  
-
-  const [accountNumber, setAccountNumber] = useState("");
-  
-  const [accountType, setAccountType] = useState("");
-
-  
-  const [count, setCount] = useState(3);
-  const [array, setArray] = useState( [
-    {
-      count: 1,
-      customerName:"Israa Othman",
-      accountNumber: "123456",
-      accountType: "Savings"
-    },
-    {
-      count: 2,
-      customerName:"Ahmad Zahran",
-      accountNumber: "987654",
-      accountType: "Student accounts"
-    }
-]
-)
-
-
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    
+    let customerName = event.target.CustomerName.value;
+    let accountNumber = event.target.AccountNumber.value;
+    let accountType = event.target.select.value;
 
-  let cards ={
-    count:count,
-    customerName:customerName,
-    accountNumber:accountNumber,
-    accountType:accountType
+    setaccounts((prevAccounts) => {
+      const newAccount = {
+        id: prevAccounts.accountss.length + 1,
+        customerName: customerName,
+        accountNumber: accountNumber,
+        accountType: accountType,
+      };
+      return {
+        accountss: [...prevAccounts.accountss, newAccount],
+        numberOfAccounts: prevAccounts.numberOfAccounts + 1,
+      };
+    });
   }
-  
 
-    setArray([...array, cards])
-    setCount(count+1)
-
-     console.log(array)
-
-  };
-
- 
-
-
-
+  function removeAccount(id) {
+    setaccounts((prevAccounts) => {
+      const newAccounts = prevAccounts.accountss.filter(
+        (account) => account.id !== id
+      );
+      return {
+        accountss: newAccounts,
+        numberOfAccounts: prevAccounts.numberOfAccounts - 1,
+      };
+    });
+  }
 
 
 
 
   return (
-
     <>
+      {/*------------------ form --------------------------*/}
 
-   
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>SignUP</legend>
+      <form className="form" onSubmit={handleSubmit}>
+        <label htmlFor="CustomerName">Customer Name</label>
+        <input type="text" name="CustomerName" />
 
-  
+        <label htmlFor="">Account Number </label>
+        <input type="text" name="AccountNumber" />
 
-        <div className="divP">
-          <div className="LabelInput">
-            <label>Customer Name</label>
-            <input
-              type="text"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
-          </div>
-         
-        </div>
+        <label htmlFor="">Account Type</label>
+        <select name="select">
+          <option>Current account</option>
+          <option>Savings</option>
+          <option>Student accounts</option>
+        </select>
 
-        <div className="divP">
-          <div className="LabelInput">
-            <label>Account Number:</label>
-            <input
-              type="text"
-              value={accountNumber}
-              onChange={(e) => setAccountNumber(e.target.value)}
-            />
-          </div>
-        
-        </div>
+        <button type="submit">Submit</button>
+      </form>
 
-        <div className="divP">
-          <div className="LabelInput">
-            <label>Account Type</label>
-            <input
-              type="text"
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
-            />
-          </div>
-          
-        </div>
+      {/*------------------ form --------------------------*/}
 
-        <input type="submit" />
-      </fieldset>
-    </form>
+      {/*------------------ number Of Accounts --------------------------*/}
+      <div className="numOfAcc">
+        The total number of account in bank{" "}
+        <strong>{accounts.numberOfAccounts}</strong>
+      </div>
+      {/*------------------ number Of Accounts --------------------------*/}
 
-
-
-   <div className="cardsContainer">
-  
-  { 
- 
-  
-
-
- 
-  array.map((account) => {
-    
-        return(
-
-        <div id={account.count}  className="card">
-          <p>{account.count}</p>
-        <p>{account.customerName}</p>
-        <p>{account.accountNumber}</p>
-        <p>{account.accountType}</p>
-        <button id={account.count}  >delete</button>
-        </div>
-
-        );
-      })
-      
-      
-      }
-
-
-
-   </div>
-
-
+      {/*------------------ Accounts card --------------------------*/}
+      <div className="cardsContainer">
+        {accounts.accountss.map((value) => {
+          return (
+            <>
+              <div className="card">
+                <h3>Name: {value.customerName}</h3>
+                <p>id: {value.id}</p>
+                <p>Account Number: {value.accountNumber}</p>
+                <p>Account Type: {value.accountType}</p>
+                <button onClick={() => removeAccount(value.id)}>Delete account</button>
+              </div>
+            </>
+          );
+        })}
+      </div>
+      {/*------------------ Accounts card --------------------------*/}
     </>
-
   );
 }
+
+export default Form;
